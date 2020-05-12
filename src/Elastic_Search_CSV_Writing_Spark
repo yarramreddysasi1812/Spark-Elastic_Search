@@ -1,0 +1,13 @@
+import org.apache.spark.sql.SparkSession
+
+import org.elasticsearch.spark.sql._
+
+val spark=spark.builder().appname("Write to ES").master("local").config("spark.es.nodes","localhost").config("spark.es.port","9200").getOrCreate()
+
+val spark = SparkSession.builder().appName("WriteJSONToES").master("local[*]").config("spark.es.nodes","localhost").config("spark.es.port","9200").getOrCreate()
+val idf=spark.read.csv("C:/Users/Sasidhar Reddy y/Desktop/Records.csv")
+
+val tdf=spark.read.format("csv").option("header", "true").load("C:/Users/Sasidhar Reddy y/Desktop/Records.csv")
+idf.saveToEs("dataframecsvindex")
+
+val xdf=tdf.select($"Emp ID",$"First Name",$"Gender",$"Salary")

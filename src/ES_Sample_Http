@@ -1,0 +1,69 @@
+--create index
+PUT http://localhost:9200/employees_idx
+
+{
+	"settings" : {
+		"number_of_shards" : 3,
+		"number_of_replicas" : 1
+	}
+}
+
+--To get information about an index
+
+GET http://localhost:9200/employees_idx
+
+
+--Add employee to index with id 1
+
+POST http://localhost:9200/employees_idx/employee/1
+
+{
+	"name": "Tom",
+	"age": 26,
+	"department": "IT",
+	"address": {
+		"street": "No.123, XYZ street",
+		"city": "Chicago",
+		"country": "United States"
+	}
+}
+-- to get top 100 records.
+
+http://localhost:9200/employees_idx/_search?pretty=true&q=*:*&size=100 
+
+--To fetch document with id 1
+
+GET http://localhost:9200/employees_idx/employee/1
+
+--Add employee to index with id 2
+
+POST http://localhost:9200/employees_idx/employee/2
+
+{
+	"name": "Jerry",
+	"age": 30,
+	"department": "Finance"
+}
+
+--Add employee to index with id 3
+
+POST http://localhost:9200/employees_idx/employee/3
+
+{
+	"name": "Emily",
+	"age": 30,
+	"department": "HR",
+	"address": {
+		"street": "No.123, XYZ United street",
+		"city": "New Jersey",
+		"country": "United States"
+	}
+}
+
+--Search documents by name
+
+GET http://localhost:9200/employees_idx/employee/_search?q=name:emily
+
+--Delete an index
+
+DELETE http://localhost:9200/employees_idx
